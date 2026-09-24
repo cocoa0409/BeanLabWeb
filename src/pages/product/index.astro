@@ -1,0 +1,51 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CategoryLabel from '../../components/CategoryLabel.astro';
+import PublishDate from '../../components/PublishDate.astro';
+import { products, newestFirst } from '../../data/site';
+import type { MarkdownInstance } from 'astro';
+const documents = Object.values(
+  import.meta.glob<MarkdownInstance<{ slug: string; title: string; category: string }>>(
+    '../../content/products/*.md',
+    {
+      eager: true,
+    },
+  ),
+);
+---
+
+<Layout
+  title="Product"
+  section="Product"
+  description="Environments and datasets for coding, research, and enterprise agents."
+>
+  <section class="minimal-page">
+    <div class="minimal-page-content">
+      <h1>Product</h1>
+      <div class="minimal-articles product-index">
+        {newestFirst(products).map((product) => (
+          <a class="minimal-article product-card" href={`/product/${product.slug}/`}>
+            <PublishDate date={product.publishedDate} />
+            <div class="entry-content">
+              <div class="product-heading">
+                <CategoryLabel
+                  category={
+                    documents.find((document) => document.frontmatter.slug === product.slug)!
+                      .frontmatter.category
+                  }
+                />
+                <h2>
+                  {
+                    documents.find((document) => document.frontmatter.slug === product.slug)!
+                      .frontmatter.title
+                  }
+                </h2>
+              </div>
+              <p>{product.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,12 @@
+---
+interface Props {
+  category: string;
+  class?: string;
+}
+const { category, class: className } = Astro.props;
+---
+
+<span class:list={['category-tag', className]}>
+  <span class="category-mark" aria-hidden="true"></span>
+  {category}
+</span>

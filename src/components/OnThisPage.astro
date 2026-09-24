@@ -1,0 +1,43 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+  placement: 'sidebar' | 'inline';
+}
+const { headings, placement } = Astro.props;
+---
+
+{placement === 'sidebar' ? (
+  <aside class="reader-sidebar">
+    <div class="toc-header">
+      <p class="toc-title">On This Page</p>
+      <progress class="toc-progress" max="100" value="0" aria-label="Reading progress"></progress>
+    </div>
+    <nav class="page-toc" aria-label="On this page" data-toc>
+      <ol>
+        {headings.map((heading) => (
+          <li>
+            <a href={`#${heading.slug}`} class:list={{ 'toc-subsection': heading.depth > 2 }}>
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  </aside>
+) : (
+  <details class="reader-contents">
+    <summary>
+      <span>On This Page</span>
+      <progress class="toc-progress" max="100" value="0" aria-label="Reading progress"></progress>
+    </summary>
+    <nav aria-label="Article contents" data-toc>
+      {headings.map((heading) => (
+        <a href={`#${heading.slug}`} class:list={{ 'toc-subsection': heading.depth > 2 }}>
+          {heading.text}
+        </a>
+      ))}
+    </nav>
+  </details>
+)}

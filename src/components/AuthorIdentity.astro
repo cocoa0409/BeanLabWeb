@@ -1,0 +1,30 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/joe-ray-wang.jpg';
+interface Props {
+  name: string;
+  email: string;
+  nameClass?: string;
+}
+const { name, email, nameClass } = Astro.props;
+---
+
+<div class="author-identity">
+  <span class="author-avatar">
+    <Image
+      src={portrait}
+      alt="Red lighthouse beside an icy sea — Joe Ray Wang's avatar"
+      width={256}
+      height={256}
+      widths={[128, 256]}
+      sizes="88px"
+      format="webp"
+      quality={90}
+      loading="eager"
+    />
+  </span>
+  <span class="author-details">
+    <span class:list={['author-name', nameClass]}>{name}</span>
+    <span class="author-email">{email}</span>
+  </span>
+</div>

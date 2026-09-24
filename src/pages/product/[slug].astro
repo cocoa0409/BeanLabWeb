@@ -1,0 +1,52 @@
+---
+import type { MarkdownInstance } from 'astro';
+import Layout from '../../layouts/Layout.astro';
+import CategoryLabel from '../../components/CategoryLabel.astro';
+import PublishDate from '../../components/PublishDate.astro';
+import OnThisPage from '../../components/OnThisPage.astro';
+import { products } from '../../data/site';
+
+export function getStaticPaths() {
+  const documents = Object.values(
+    import.meta.glob<MarkdownInstance<{ slug: string; title: string; category: string }>>(
+      '../../content/products/*.md',
+      { eager: true },
+    ),
+  );
+  return documents.map((document) => ({
+    params: { slug: document.frontmatter.slug },
+    props: {
+      document,
+      product: products.find((product) => product.slug === document.frontmatter.slug)!,
+    },
+  }));
+}
+const { product, document } = Astro.props;
+const { Content, frontmatter } = document;
+const headings = document.getHeadings().filter((heading) => heading.depth <= 3);
+---
+
+<Layout title={frontmatter.title} section="Product" theme="light" description={product.description}>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <article class="reader product-reader reader-with-toc">
+    <div class="reader-main">
+      <header class="reader-header">
+        <a class="reader-back" href="/product/">
+          ← Product
+        </a>
+        <div class="product-title-group">
+          <div class="reader-kicker">
+            <CategoryLabel category={frontmatter.category} class="reader-category" />
+            <PublishDate date={product.publishedDate} />
+          </div>
+          <h1>{frontmatter.title}</h1>
+        </div>
+      </header>
+      <OnThisPage headings={headings} placement="inline" />
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+    <OnThisPage headings={headings} placement="sidebar" />
+  </article>
+</Layout>

@@ -1,0 +1,12 @@
+Bean Pixel Regular
+
+An English/Latin subset of Fusion Pixel 12px Monospaced, release 2026.09.01.
+Subsetting and font naming changes by BEAN LABS, 2026-09-24.
+Original glyph shapes are unmodified. Internal family and PostScript names
+are changed to Bean Pixel / BeanPixel-Regular to respect Reserved Font Names.
+
+Licensed under the SIL Open Font License, Version 1.1.
+The original copyright notices and all applicable upstream licenses are
+retained in the adjacent fusion-pixel/ directory. See fusion-pixel/OFL.txt.
+
+Original project: https://github.com/TakWolf/fusion-pixel-font

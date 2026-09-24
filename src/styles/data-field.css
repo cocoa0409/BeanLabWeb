@@ -1,0 +1,74 @@
+.data-field {
+  position: fixed;
+  top: 0;
+  left: 0;
+  /* Keep the crop unchanged when a content page introduces a scrollbar. */
+  width: 100vw;
+  height: 100dvh;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--paper);
+}
+.field-canvas,
+.field-fallback {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  /* Remove subtle source-image chroma after particle blending. The warm paper
+     and reading wash remain outside this filter. */
+  filter: grayscale(1);
+}
+.field-fallback {
+  object-fit: cover;
+  object-position: center;
+}
+.field-canvas {
+  opacity: 0;
+}
+.field-ready .field-canvas {
+  opacity: 1;
+}
+.field-ready .field-fallback {
+  opacity: 0;
+}
+.field-wash,
+.field-veil {
+  position: absolute;
+  inset: 0;
+}
+.field-wash {
+  background:
+    linear-gradient(90deg, #f5f5f02b, transparent 32%),
+    linear-gradient(0deg, #f5f5f075, transparent 6%, transparent 97%, #f5f5f01f);
+}
+/* Only this translucent layer changes between pages. The scene keeps running. */
+.field-veil {
+  background: var(--paper);
+  opacity: 0.76;
+}
+html[data-layout='immersive'] .field-veil {
+  opacity: 0;
+}
+body:has(.reader) .field-veil {
+  opacity: 0.91;
+}
+.motion-toggle[hidden] {
+  display: none;
+}
+@media (max-width: 760px) {
+  .field-fallback {
+    object-position: 62% center;
+  }
+  .field-wash {
+    background:
+      linear-gradient(180deg, #f5f5f0b8, #f5f5f099 38%, transparent 62%),
+      linear-gradient(0deg, #f5f5f080, transparent 6%);
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .field-wash {
+    background: linear-gradient(90deg, #f5f5f080, #f5f5f015 48%, #f5f5f080);
+  }
+}

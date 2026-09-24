@@ -1,0 +1,156 @@
+---
+import '@fontsource/ibm-plex-sans/latin-400.css';
+import '@fontsource/ibm-plex-sans/latin-500.css';
+import '@fontsource/ibm-plex-sans/latin-400-italic.css';
+import '@fontsource/ibm-plex-mono/latin-400.css';
+import { ClientRouter } from 'astro:transitions';
+import DataField from '../components/DataField.astro';
+import '../styles/global.css';
+import '../styles/minimal.css';
+import Brand from '../components/Brand.astro';
+import Arrow from '../components/Arrow.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  theme?: 'light';
+  section?: string;
+  immersive?: boolean;
+}
+const {
+  title,
+  description = site.description,
+  theme = 'light',
+  section = 'Home',
+  immersive = false,
+} = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const socialImageURL = new URL('/social-card.png', Astro.site);
+const nav = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Product', href: '/product/' },
+  { label: 'Join us', href: '/joinus/' },
+];
+---
+
+<!doctype html>
+<html lang="en" data-theme={theme} data-layout={immersive ? 'immersive' : 'standard'}>
+  <head>
+    <ClientRouter fallback="swap" />
+    <meta charset="UTF-8" />
+    <link
+      rel="preload"
+      href="/fonts/bean-pixel-latin.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f5f0" />
+    <title>{title ? `${title} — BEAN LABS` : 'BEAN LABS — Intelligence, Cultivated.'}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <meta
+      property="og:title"
+      content={title ? `${title} — BEAN LABS` : 'BEAN LABS — Intelligence, Cultivated.'}
+    />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="BEAN LABS — Intelligence, Cultivated. The data powering the final leap to AGI."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <DataField />
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="site-header">
+      <a class="logo-link" href="/" aria-label="BEAN LABS home">
+        <Brand />
+      </a>
+      <nav class="desktop-nav" aria-label="Main navigation">
+        {nav.map((link) => (
+          <a
+            href={link.href}
+            class:list={[{ active: section === link.label }]}
+            aria-current={section === link.label ? 'page' : undefined}
+          >
+            {link.label}
+            {link.label === 'Join us' && <Arrow diagonal />}
+          </a>
+        ))}
+      </nav>
+      <button
+        class="menu-toggle"
+        aria-label="Open navigation"
+        aria-expanded="false"
+        aria-controls="mobile-nav"
+      >
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation">
+        {nav.map((link) => (
+          <a href={link.href} aria-current={section === link.label ? 'page' : undefined}>
+            {link.label}
+            <Arrow diagonal />
+          </a>
+        ))}
+      </nav>
+    </header>
+    <noscript>
+      <style>
+        .menu-toggle {
+          display: none !important;
+        }
+        @media (max-width: 760px) {
+          .desktop-nav {
+            display: flex !important;
+            gap: 12px;
+          }
+          .desktop-nav a {
+            font-size: 16px;
+          }
+          .desktop-nav a.active:before {
+            display: none;
+          }
+          .desktop-nav .arrow {
+            display: none;
+          }
+          .brand {
+            font-size: 22px;
+          }
+          .brand-symbol {
+            display: none;
+          }
+          .brand {
+            gap: 5px;
+          }
+        }
+      </style>
+    </noscript>
+    <main id="main">
+      <slot />
+    </main>
+    {!immersive && (
+      <footer class="minimal-footer">
+        <span>BEAN LABS</span>
+        <span aria-hidden="true">·</span>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </footer>
+    )}
+    <script>
+      import '../scripts/navigation';
+    </script>
+  </body>
+</html>

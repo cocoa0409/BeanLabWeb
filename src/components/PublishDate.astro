@@ -1,0 +1,13 @@
+---
+interface Props {
+  date: string;
+}
+const { date } = Astro.props;
+const [year, month, day] = date.split('-');
+const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+const label = `${day} ${months[Number(month) - 1]} ${year}`;
+---
+
+<time class="publish-date" datetime={date}>
+  {label}
+</time>

@@ -1,0 +1,29 @@
+{
+  "name": "bean-labs-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev --host 127.0.0.1",
+    "build": "node scripts/import-resources.mjs && astro build",
+    "preview": "astro preview --host 127.0.0.1",
+    "content:sync": "node scripts/import-resources.mjs",
+    "check": "astro check",
+    "test:content": "node --test scripts/product-markdown.test.mjs",
+    "test:e2e": "npm run test:content && npm run build && playwright test"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/ibm-plex-sans": "^5.3.0",
+    "astro": "^7.3.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.2",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.0.1",
+    "typescript": "^5.9.3"
+  }
+}

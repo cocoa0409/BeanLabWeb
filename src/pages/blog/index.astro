@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PublishDate from '../../components/PublishDate.astro';
+import AuthorIdentity from '../../components/AuthorIdentity.astro';
+import { articles } from '../../data/site';
+---
+
+<Layout
+  title="Blog"
+  section="Blog"
+  description="Research and practical guides from BEAN LABS on expert data and model development."
+>
+  <section class="minimal-page">
+    <div class="minimal-page-content">
+      <h1>Blog</h1>
+      <div class="minimal-articles">
+        {articles.map((article) => (
+          <article class="minimal-article blog-card">
+            <PublishDate date={article.publishedDate} />
+            <div class="entry-content">
+              <a class="article-summary" href={`/blog/${article.slug}/`}>
+                <h2>{article.title}</h2>
+                <p>{article.description}</p>
+              </a>
+              <AuthorIdentity
+                name={article.author}
+                email={article.authorEmail}
+                nameClass="article-author"
+              />
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>

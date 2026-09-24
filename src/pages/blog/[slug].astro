@@ -1,0 +1,59 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PublishDate from '../../components/PublishDate.astro';
+import AuthorIdentity from '../../components/AuthorIdentity.astro';
+import OnThisPage from '../../components/OnThisPage.astro';
+import { article } from '../../data/site';
+import { Content, getHeadings } from '../../content/blog/expert-guide.md';
+import { Image } from 'astro:assets';
+import guideIllustration from '../../assets/expert-guide.png';
+export function getStaticPaths() {
+  return [{ params: { slug: article.slug } }];
+}
+const headings = getHeadings().filter((h) => h.depth === 2);
+---
+
+<Layout title={article.title} section="Blog" theme="light" description={article.description}>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <article class="reader reader-with-toc">
+    <div class="reader-main">
+      <header class="reader-header">
+        <a class="reader-back" href="/blog/">
+          ← Blog
+        </a>
+        <h1>{article.title}</h1>
+        <div class="reader-byline">
+          <AuthorIdentity
+            name={article.author}
+            email={article.authorEmail}
+            nameClass="reader-author"
+          />
+          <PublishDate date={article.publishedDate} />
+        </div>
+      </header>
+      <OnThisPage headings={headings} placement="inline" />
+      <div class="prose">
+        <figure class="expert-figure">
+          <a
+            href="/images/expert-guide.png"
+            target="_blank"
+            rel="noopener"
+            aria-label="Open the full-size expert guide illustration"
+          >
+            <Image
+              src={guideIllustration}
+              alt="A visual guide to high-value prompts and effective rubrics for expert-authored training data."
+              widths={[600, 1000, 1600]}
+              sizes="(max-width: 760px) calc(100vw - 48px), (max-width: 920px) calc(100vw - 96px), (max-width: 1100px) 824px, (max-width: 1296px) calc(100vw - 400px), 896px"
+              format="webp"
+              quality={85}
+              loading="lazy"
+            />
+          </a>
+        </figure>
+        <Content />
+      </div>
+    </div>
+    <OnThisPage headings={headings} placement="sidebar" />
+  </article>
+</Layout>

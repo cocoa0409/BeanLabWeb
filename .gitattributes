@@ -1,0 +1,4 @@
+# Markdown uses trailing spaces for explicit line breaks.
+*.md whitespace=-blank-at-eol
+# Keep third-party license text exactly as distributed.
+public/licenses/** -whitespace

@@ -1,0 +1,203 @@
+.prose {
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.prose > :first-child {
+  margin-top: 0;
+}
+.prose p {
+  margin: 0 0 16px;
+}
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  color: var(--ink);
+  font-weight: 500;
+  font-family: var(--font);
+  scroll-margin-top: 110px;
+}
+.prose h2 {
+  font-size: 28px;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+  margin: 36px 0 12px;
+}
+.prose h3 {
+  font-size: 21px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+  margin: 28px 0 10px;
+}
+.prose h4 {
+  font-size: 18px;
+  line-height: 1.4;
+  margin: 22px 0 8px;
+}
+.prose h5 {
+  font-size: 17px;
+  line-height: 1.45;
+  margin: 20px 0 8px;
+}
+.prose h6 {
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 18px 0 8px;
+}
+.prose strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+.prose ul,
+.prose ol {
+  padding-left: 22px;
+  margin: 12px 0 18px;
+}
+.prose li {
+  padding-left: 2px;
+  margin: 4px 0;
+}
+.prose li::marker {
+  color: var(--ink);
+}
+.prose li > p {
+  margin-bottom: 6px;
+}
+.prose li ul,
+.prose li ol {
+  margin: 5px 0 8px;
+}
+.prose a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: #92928d;
+  color: var(--ink);
+}
+.prose a:hover {
+  text-decoration-color: currentColor;
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 28px 0;
+}
+.prose blockquote {
+  margin: 22px 0;
+  border-left: 2px solid #a4a49e;
+  padding: 12px 20px;
+  background: #edede8;
+}
+.prose blockquote > p:last-child {
+  margin-bottom: 0;
+}
+.prose pre {
+  padding: 20px;
+  border: 1px solid #d5d5cf;
+  overflow-x: auto;
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 100%;
+  margin: 20px 0;
+  background: #edede8 !important;
+  overflow-wrap: normal;
+}
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: #e8e8e2;
+  padding: 2px 5px;
+}
+.prose pre code {
+  font-size: inherit;
+  background: none;
+  padding: 0;
+}
+/* Keep embedded syntax highlighting within the site's black typography. */
+.prose pre,
+.prose pre span {
+  color: var(--ink) !important;
+}
+.prose table {
+  border-collapse: collapse;
+  font-size: 15px;
+  line-height: 1.6;
+  width: 100%;
+  margin: 22px 0;
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+.prose th,
+.prose td {
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  padding: 10px 12px;
+  min-width: 120px;
+}
+.prose th {
+  background: #eaeae4;
+  color: var(--ink);
+  font-weight: 500;
+}
+.prose img {
+  width: 100%;
+  height: auto;
+}
+.prose figure {
+  margin: 0 0 30px;
+}
+.prose figcaption {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-top: 14px;
+}
+.expert-figure > a {
+  display: block;
+  border: 1px solid var(--line);
+}
+@media (max-width: 760px) {
+  .prose {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .prose p {
+    margin-bottom: 16px;
+  }
+  .prose h2 {
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 12px;
+  }
+  .prose h3 {
+    font-size: 20px;
+    margin-top: 24px;
+  }
+  .prose h4 {
+    font-size: 18px;
+  }
+  .prose h5 {
+    font-size: 17px;
+  }
+  .prose ul,
+  .prose ol {
+    padding-left: 20px;
+  }
+  .prose pre {
+    font-size: 13px;
+    padding: 18px;
+  }
+  .prose table {
+    font-size: 14px;
+  }
+  .prose th,
+  .prose td {
+    padding: 8px 10px;
+  }
+  .prose hr {
+    margin: 24px 0;
+  }
+}

@@ -1,0 +1,34 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+import '../styles/home.css';
+import { site } from '../data/site';
+---
+
+<Layout immersive description={site.description}>
+  <section class="film-home" aria-label="Data that grows intelligence">
+    <div class="world-copy">
+      <div class="world-title">
+        <h1>
+          Intelligence,
+          <br />
+          <em>Cultivated.</em>
+        </h1>
+      </div>
+      <div class="world-caption">
+        <p class="world-intro">
+          The data powering <br />
+          the final leap to AGI.
+        </p>
+        <a class="world-product-link" href="/product/">
+          Explore our work <Arrow diagonal />
+        </a>
+      </div>
+    </div>
+    <footer class="minimal-footer world-footer">
+      <span>BEAN LABS</span>
+      <span aria-hidden="true">·</span>
+      <a href={`mailto:${site.email}`}>{site.email}</a>
+    </footer>
+  </section>
+</Layout>

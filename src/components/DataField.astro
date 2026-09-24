@@ -1,0 +1,50 @@
+---
+import '../styles/data-field.css';
+---
+
+<div
+  class="data-field"
+  transition:persist="cultivated-field"
+  transition:animate="none"
+  data-motion="static"
+  data-frame="0"
+  data-artwork="silver-interference"
+  aria-hidden="true"
+>
+  <picture>
+    <source media="(max-width: 760px)" srcset="/artwork/silver-interference-mobile.webp" />
+    <img
+      class="field-fallback"
+      src="/artwork/silver-interference.webp"
+      width="1672"
+      height="941"
+      alt=""
+      fetchpriority="high"
+      decoding="async"
+    />
+  </picture>
+  <canvas class="field-canvas"></canvas>
+  <div class="field-wash"></div>
+  <div class="field-veil"></div>
+</div>
+<button
+  class="motion-toggle"
+  transition:persist="motion-control"
+  transition:animate="none"
+  type="button"
+  aria-label="Pause animation"
+  aria-pressed="false"
+  title="Pause animation"
+  hidden
+>
+  <svg class="pause-icon" viewBox="0 0 16 16" aria-hidden="true">
+    <path d="M5.5 3v10M10.5 3v10" />
+  </svg>
+  <svg class="play-icon" viewBox="0 0 16 16" aria-hidden="true">
+    <path d="m5 3 7 5-7 5Z" />
+  </svg>
+</button>
+<script>
+  import { mountDataField } from '../scripts/data-field';
+  mountDataField();
+</script>

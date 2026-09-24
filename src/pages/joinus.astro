@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { roles, site } from '../data/site';
+---
+
+<Layout
+  title="Join us"
+  section="Join us"
+  description="Build the next generation of AI with BEAN LABS. Opportunities in research, engineering, and domain expertise."
+>
+  <section class="minimal-page minimal-careers">
+    <div class="minimal-page-content">
+      <h1>Join BEAN LABS.</h1>
+      <ul class="minimal-roles">
+        {roles.map((role) => (
+          <li>{role.title}</li>
+        ))}
+      </ul>
+      <p class="minimal-apply">
+        Apply via <a href={`mailto:${site.careersEmail}`}>{site.careersEmail}</a>
+      </p>
+    </div>
+  </section>
+</Layout>
