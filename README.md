@@ -1,6 +1,6 @@
 # BEAN LABS
 
-BEAN LABS PTE. LTD. 官网，英文内容，Astro 静态输出。正式域名：<https://www.kultalab.com/>。
+BEAN LABS PTE. LTD. 官网，英文内容，Astro 静态输出。正式域名：<https://www.thebeanos.com/>。
 
 Git 仓库：<https://github.com/cocoa0409/BeanLabWeb>，主分支为 `main`。
 
@@ -18,7 +18,7 @@ npm run test:e2e    # 构建后运行浏览器测试（需安装 Google Chrome�
 
 ## 维护
 
-- `resource/blog/`、`resource/product/`：原始文档。构建时由 `scripts/import-resources.mjs` 导入；不要直接修改生成的 `src/content/`。产品导入会恢复导出文档中的标题、表格和代码块，并将样例文档的标题层级放在所属章节之下。
+- `resource/blog/`、`resource/product/`：原始文档。构建时由 `scripts/import-resources.mjs` 导入；不要直接修改生成的 `src/content/`。产品导入会恢复导出文档中的标题、表格和代码块，并将样例文档的标题层级放在所属章节之下。文档引用的 `figs/` 图片会自动复制到公开资源目录，同时转换图片和原图链接。
 - `src/data/site.ts`：产品简介、作者、固定发布日期与岗位；列表按日期倒序。
 - `src/data/contact.json`：合作邮箱和招聘邮箱。
 - `resource/brand/`：最终选定的银色主视觉原稿、B 图标和几何参数。

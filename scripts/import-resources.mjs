@@ -31,6 +31,15 @@ for (const [slug, filename] of sources) {
     /Please (?:contact us|refer to Google Drive)\./g,
     `Please [contact us](mailto:${email}?subject=${encodeURIComponent(`${title} — Samples`)}).`,
   );
+  // Publish figures beside their source document, including links to the originals.
+  const figures = new Set(
+    [...text.matchAll(/\]\((figs\/[\w.-]+\.(?:png|jpe?g|webp|svg))\)/gi)].map((match) => match[1]),
+  );
+  for (const figure of figures) {
+    const url = `/images/products/${slug}/${path.basename(figure)}`;
+    await write(`public${url}`, await readFile(path.join(root, path.dirname(filename), figure)));
+    text = text.replaceAll(`](${figure})`, `](${url})`);
+  }
   await write(
     `src/content/products/${slug}.md`,
     `---\nslug: ${slug}\ntitle: ${JSON.stringify(title)}\ncategory: ${JSON.stringify(category)}\n---\n\n${text.trim()}\n`,

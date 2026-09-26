@@ -34,7 +34,7 @@ export const products = [
   {
     slug: 'enterprise-rl',
     name: 'Enterprise RL',
-    publishedDate: '2026-09-02',
+    publishedDate: '2026-09-25',
     description:
       'Enterprise workflows with interconnected systems, policy constraints, and role-based permissions.',
   },
@@ -45,12 +45,12 @@ export const article = {
   title: 'Guiding LLMs with Your Expertise',
   description: 'A practical guide to designing prompts, rubrics, and training data for LLMs.',
   author: 'Joe Ray Wang',
-  authorEmail: 'joe@thebeanlabs.com',
+  authorEmail: 'joe@thebeanos.com',
   publishedDate: '2026-09-08',
 };
 
-// Dates were assigned once within 2026-08-01–2026-09-25 at the owner's request.
-// Keep them stable across visits and builds. ISO dates sort without timezone conversion.
+// Keep dates stable across visits and builds; change them for editorial updates.
+// ISO dates sort without timezone conversion.
 export function newestFirst<T extends { publishedDate: string; slug: string }>(
   entries: readonly T[],
 ) {

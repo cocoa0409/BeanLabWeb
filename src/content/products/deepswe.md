@@ -69,4 +69,4 @@ Using **Qwen-3.8-Max** as the agent model with at least eight independent rollou
 
 ## Sample
 
-Please [contact us](mailto:contact@thebeanlabs.com?subject=DeepSWE-oriented%20Dataset%20%E2%80%94%20Samples).
+Please [contact us](mailto:contact@thebeanos.com?subject=DeepSWE-oriented%20Dataset%20%E2%80%94%20Samples).

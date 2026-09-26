@@ -67,7 +67,7 @@ test('The four navigation links and every product open the right page', async ({
     if (href === '/product/deepswe/') {
       await expect(
         page.locator('.prose').getByRole('link', { name: 'contact us', exact: true }),
-      ).toHaveAttribute('href', /^mailto:contact@thebeanlabs\.com\?subject=.+/);
+      ).toHaveAttribute('href', /^mailto:contact@thebeanos\.com\?subject=.+/);
     }
   }
 });
@@ -109,14 +109,14 @@ test('Career roles are plain text and applications use the talent inbox', async 
     page.locator('.minimal-roles a, .minimal-roles button, .minimal-roles svg'),
   ).toHaveCount(0);
   await expect(
-    page.getByRole('link', { name: 'talents@thebeanlabs.com', exact: true }),
-  ).toHaveAttribute('href', 'mailto:talents@thebeanlabs.com');
+    page.getByRole('link', { name: 'talents@thebeanos.com', exact: true }),
+  ).toHaveAttribute('href', 'mailto:talents@thebeanos.com');
 });
 
 test('The supplied article is complete and its contents links work', async ({ page }) => {
   await page.goto('/blog/');
   await expect(page.locator('.article-author')).toHaveText('Joe Ray Wang');
-  await expect(page.locator('.author-email')).toHaveText('joe@thebeanlabs.com');
+  await expect(page.locator('.author-email')).toHaveText('joe@thebeanos.com');
   await expect(page.locator('.author-email')).toHaveJSProperty('tagName', 'SPAN');
   await expect(page.locator('.author-avatar')).toHaveCSS('border-radius', '50%');
   await expect
@@ -128,7 +128,7 @@ test('The supplied article is complete and its contents links work', async ({ pa
     .toBeGreaterThan(0);
   await page.locator('.article-summary').click();
   await expect(page.locator('.reader-author')).toHaveText('Joe Ray Wang');
-  await expect(page.locator('.author-email')).toHaveText('joe@thebeanlabs.com');
+  await expect(page.locator('.author-email')).toHaveText('joe@thebeanos.com');
   await expect(page.locator('.author-avatar')).toHaveCSS('border-radius', '50%');
   const contents = page.getByRole('navigation', { name: 'On this page', exact: true });
   await expect(contents.getByRole('link')).toHaveCount(4);
@@ -679,7 +679,7 @@ test('The phone chapter menu stays compact and works on Blog and Product', async
 });
 
 for (const width of [1440, 390]) {
-  test(`Updated product samples render as documents, tables and code at ${width}px`, async ({
+  test(`Product reports and samples render their tables, code and figures at ${width}px`, async ({
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 });
@@ -701,10 +701,11 @@ for (const width of [1440, 390]) {
       },
       {
         slug: 'enterprise-rl',
-        tables: 39,
-        blocks: 3,
-        heading: 'Environment Snapshot',
-        code: 'def test_evelyn_r2_interview_submitted(db):',
+        tables: 11,
+        blocks: 1,
+        heading: 'Result Analysis',
+        code: 'harbor_tasks/',
+        figures: ['AutomationBench-AA', 'Tau3-Banking-AA'],
       },
     ];
     for (const sample of samples) {
@@ -712,7 +713,20 @@ for (const width of [1440, 390]) {
       await expect(page.getByRole('heading', { name: sample.heading, exact: true })).toHaveCount(1);
       await expect(page.locator('.prose table')).toHaveCount(sample.tables);
       await expect(page.locator('.prose pre')).toHaveCount(sample.blocks);
-      await expect(page.locator('.prose pre').first()).toContainText(sample.code);
+      if (sample.code) {
+        await expect(page.locator('.prose pre').first()).toContainText(sample.code);
+      }
+      for (const name of sample.figures ?? []) {
+        const image = page.getByRole('img', {
+          name: `${name} public model scores from Artificial Analysis`,
+          exact: true,
+        });
+        await expect(image).toBeVisible();
+        expect(
+          await image.evaluate((img) => (img as HTMLImageElement).naturalWidth),
+        ).toBeGreaterThan(0);
+        await expect(image.locator('..')).toHaveAttribute('href', (await image.getAttribute('src'))!);
+      }
       expect(
         await page
           .locator('.prose')

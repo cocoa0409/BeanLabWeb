@@ -91,15 +91,24 @@ test('environment snapshot is subordinate to the product, and embedded headings 
   assert.doesNotMatch(result, /^# /m);
 });
 
-test('source Enterprise samples preserve both test suites and the final tool table', async () => {
+test('source Enterprise report preserves its evaluation tables and benchmark figures', async () => {
   const source = await readFile(
     new URL('../resource/product/general/ENTERPRISE_RL.md', import.meta.url),
     'utf8',
   );
-  const result = normalizeProductMarkdown(source.replace(/^## [^\n]+\n/, ''));
-  assert.equal((result.match(/^```python$/gm) || []).length, 2);
-  assert.match(result, /^def test_evelyn_r2_interview_submitted\(db\):$/m);
-  assert.match(result, /^def test_sony_a1ii_restock_request\(db\):$/m);
-  assert.match(result, /^\| `execute` \| Run a shell command/m);
+  const result = normalizeProductMarkdown(source.replace(/^#{1,2} [^\n]+\n/, ''));
+  assert.match(result, /^## Design Philosophy$/m);
+  assert.match(result, /^## Experiment$/m);
+  assert.match(result, /^## Result Analysis$/m);
+  assert.equal(
+    (result.match(/^\| Model \| pass@1 \| pass@4 \| pass@8 \| Avg Steps \|$/gm) || []).length,
+    4,
+  );
+  assert.match(
+    result,
+    /^\| Model \| AutomationBench-AA \| Tau3-Banking-AA \| EnterpriseRL pass@1 \|$/m,
+  );
+  assert.match(result, /!\[AutomationBench-AA[^\]]*\]\(figs\/AutomationBench-AA\.png\)/);
+  assert.match(result, /!\[Tau3-Banking-AA[^\]]*\]\(figs\/Tau3-Banking-AA\.png\)/);
   assert.doesNotMatch(result, /^`+#?\s*\|/m);
 });

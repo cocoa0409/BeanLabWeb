@@ -79,7 +79,7 @@
 
 [4.4 Summary: The Anatomy of a Gold-Standard Dataset](#4.4-summary:-the-anatomy-of-a-gold-standard-dataset)
 
-From [Joe Ray Wang](mailto:joe@thebeanlabs.com)  
+From [Joe Ray Wang](mailto:joe@thebeanos.com)  
 ---
 
 # 1 Where Your Expertise Fits in LLM Development {#1-where-your-expertise-fits-in-llm-development}
