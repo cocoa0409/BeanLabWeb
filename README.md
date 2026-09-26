@@ -1,6 +1,6 @@
 # BEAN LABS
 
-BEAN LABS PTE. LTD. 官网，英文内容，Astro 静态输出。正式域名：<https://www.thebeanos.com/>。
+BEAN LABS PTE. LTD. 官网，英文内容，Astro 静态输出。正式域名：<https://www.kultalab.com/>。
 
 Git 仓库：<https://github.com/cocoa0409/BeanLabWeb>，主分支为 `main`。
 

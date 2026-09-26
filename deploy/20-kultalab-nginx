@@ -1,9 +1,0 @@
-#!/bin/sh
-set -eu
-case "${RENEWED_LINEAGE:-}" in
-    /etc/letsencrypt/live/kultalab.com|/etc/letsencrypt/live/thebeanos.com) ;;
-    *) exit 0 ;;
-esac
-cd /root/github/KultaLabWeb
-/usr/bin/docker compose exec -T --interactive=false nginx nginx -t
-/usr/bin/docker compose exec -T --interactive=false nginx nginx -s reload
