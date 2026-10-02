@@ -10,8 +10,8 @@
 - Nginx 配置：项目内 `nginx/default.conf`，对应本仓库的 [nginx.conf](nginx.conf)。
 - Docker 卷：`kultalabweb_static_data`，容器内挂载到 `/app/staticfiles`。
 - 网站目录：该卷内的 `beanlabs/releases/<release>/`；`beanlabs/current` 指向当前版本。
-- 当前版本：`20260926T090629Z`，仅将网站邮箱后缀 `@thebeanlabs.com` 更新为 `@thebeanos.com`；官网域名、HTTPS 与服务器部署方式继续使用原有配置。
-- 本次发布包、校验清单与切换前配置：`/root/backups/beanlabs/20260926T090629Z/`；修改邮箱前的版本 `releases/20260925T150153Z` 保留用于回滚。
+- 当前版本：`20261002T043128Z`，生产站移除 About us 页面、导航入口及专用照片。页面源码和选定照片保留在本地与 Git，本地开发仍可访问；官网继续使用 `www.kultalab.com`。
+- 本次发布包、校验清单与切换前配置：`/root/backups/beanlabs/20261002T043128Z/`；上一版本 `releases/20260928T140910Z` 保留用于回滚。
 - 首次替换前的完整备份：`/root/backups/beanlabs/20260924T191458Z/`，包含旧项目、Nginx / Compose 配置、SQLite 一致性快照、静态和媒体文件、证书配置。
 
 新站仅发布 Astro 的 `dist/`，由 Nginx 直接提供静态文件。原 Django 容器、数据库和媒体卷保持原样，供旧站回滚使用。无需为新站运行 Node、Gunicorn 或新的容器。
@@ -22,8 +22,8 @@ HTML 每次使用前重新验证；`/_astro/` 内容哈希资源缓存一年，�
 
 ## 后续更新
 
-1. 本地运行 `npm run check` 和 `npm run test:e2e`，确认通过后使用生成的 `dist/`。
-2. 上传到卷内全新的 `beanlabs/releases/<release>/` 目录。只上传构建产物，保留旧版本；上传后核对文件校验和。新版本的 `/_astro/` 同时保留上一版本的内容哈希资源，避免已打开旧页面的访客在切换时遇到资源缺失。
+1. 本地运行 `npm run check` 和 `npm run test:e2e`，验证含 About us 的本地版本；随后运行 `npm run build`，使用生成的 `dist/` 部署。`dist-local/` 仅用于本地预览，不能上传服务器。正式构建不包含 `/about/`、About us 导航链接或 `joe-ray-headshot` 照片，上传前检查这三项。
+2. 上传到卷内全新的 `beanlabs/releases/<release>/` 目录。只上传构建产物，保留旧版本；上传后核对文件校验和。新版本的 `/_astro/` 同时保留上一版本的内容哈希资源，避免已打开旧页面的访客在切换时遇到资源缺失；其中 `joe-ray-headshot.*` 为已下线 About us 的专用照片，必须排除，不能从旧版本复制回来。
 3. 在服务器上先记录旧版本，再原子切换版本：
 
 ```sh
@@ -38,7 +38,7 @@ mv -Tf "$base/current.next" "$base/current"
 
 注意：Docker 使用单文件挂载，更新配置须原位写入（例如 `cat new.conf > nginx/default.conf`），不可通过重命名替换该文件，否则容器可能仍读取旧 inode。
 
-检查公网首页、Blog、Product、Join us、详情页、404、HTTPS、动画与移动端菜单。页面版本回滚时，以同样方式将 `current` 原子切回前一版本。
+检查公网首页、Blog、Product、Join us、详情页、404、HTTPS、动画与移动端菜单。确认桌面与手机导航均无 About us，`/about/`、`/about/index.html` 与旧照片地址返回 404。本地页面仍可通过 `npm run dev` 或 `npm run build:local` 加 `npm run preview:local` 查看。页面版本回滚时，以同样方式将 `current` 原子切回前一版本。
 
 ## 回滚到上一版 BEAN LABS
 
@@ -46,11 +46,11 @@ mv -Tf "$base/current.next" "$base/current"
 
 ```sh
 base="$(docker volume inspect -f '{{.Mountpoint}}' kultalabweb_static_data)/beanlabs"
-ln -s releases/20260925T150153Z "$base/current.rollback"
+ln -s releases/20260928T140910Z "$base/current.rollback"
 mv -Tf "$base/current.rollback" "$base/current"
 ```
 
-无需重载 Nginx。当前版本的发布校验清单和来源文件校验清单保存在对应备份目录中。
+无需重载 Nginx。上述上一版包含 About us，回滚会恢复该页面；若需继续保持下线，应使用当前源码重新正式构建并部署。当前版本的发布校验清单和来源文件校验清单保存在对应备份目录中。
 
 ## 回滚到原 KultaLab 网站
 

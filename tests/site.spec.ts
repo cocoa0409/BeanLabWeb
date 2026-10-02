@@ -3,17 +3,14 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 
-const routes = [
-  '/',
-  '/blog/',
-  '/product/',
-  '/joinus/',
+const documentRoutes = [
   '/blog/guiding-llms-with-your-expertise/',
   '/product/deepswe/',
   '/product/prd-to-repo/',
   '/product/auto-research/',
   '/product/enterprise-rl/',
 ];
+const routes = ['/', '/blog/', '/product/', '/about/', '/joinus/', ...documentRoutes];
 
 for (const width of [1440, 390, 320]) {
   test(`All pages render, resolve their links and fit a ${width}px viewport`, async ({ page }) => {
@@ -44,10 +41,16 @@ for (const width of [1440, 390, 320]) {
   });
 }
 
-test('The four navigation links and every product open the right page', async ({ page }) => {
+test('The navigation links and every product open the right page', async ({ page }) => {
   await page.goto('/');
   const nav = page.getByRole('navigation', { name: 'Main navigation', exact: true });
-  await expect(nav.getByRole('link')).toHaveText(['Home', 'Blog', 'Product', 'Join us']);
+  await expect(nav.getByRole('link')).toHaveText([
+    'Home',
+    'Blog',
+    'Product',
+    'About us',
+    'Join us',
+  ]);
   await expect(page.locator('.brand')).toHaveText('BEAN LABS');
   await nav.getByRole('link', { name: 'Product', exact: true }).click();
   await expect(page).toHaveURL(/\/product\/$/);
@@ -331,6 +334,7 @@ for (const route of [
   '/',
   '/blog/',
   '/product/',
+  '/about/',
   '/joinus/',
   '/blog/guiding-llms-with-your-expertise/',
   '/product/auto-research/',
@@ -424,6 +428,7 @@ for (const width of [1440, 390]) {
     await page.goForward();
     await expect(page.locator('.reader')).toBeVisible();
     await navigate('Join us', '/joinus/');
+    await navigate('About us', '/about/');
     await navigate('Home', '/');
     await expect(page.locator('.field-veil')).toHaveCSS('opacity', '0');
     expect(
@@ -450,7 +455,7 @@ test('Paused artwork keeps the exact same frame and crop across page changes', a
       )
       .digest('hex');
   const initial = await canvasHash();
-  for (const name of ['Blog', 'Product', 'Join us', 'Home']) {
+  for (const name of ['Blog', 'Product', 'About us', 'Join us', 'Home']) {
     await page.locator('.desktop-nav').getByRole('link', { name, exact: true }).click();
     await expect(page.locator('.desktop-nav a[aria-current="page"]')).toHaveText(name);
     await expect(field).toHaveAttribute('data-motion', 'paused');
@@ -578,7 +583,7 @@ test('Blog and Product have sticky chapter navigation that follows scrolling and
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (const route of routes.slice(4)) {
+  for (const route of documentRoutes) {
     await page.goto(route);
     const toc = page.getByRole('navigation', { name: 'On this page', exact: true });
     await expect(toc).toBeVisible();
@@ -661,7 +666,7 @@ test('The directory keeps a visible progress bar while long contents scroll, and
 test('The phone chapter menu stays compact and works on Blog and Product', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  for (const route of routes.slice(4)) {
+  for (const route of documentRoutes) {
     await page.goto(route);
     await expect(page.locator('.reader-sidebar')).toBeHidden();
     const menu = page.locator('.reader-contents');
@@ -725,7 +730,10 @@ for (const width of [1440, 390]) {
         expect(
           await image.evaluate((img) => (img as HTMLImageElement).naturalWidth),
         ).toBeGreaterThan(0);
-        await expect(image.locator('..')).toHaveAttribute('href', (await image.getAttribute('src'))!);
+        await expect(image.locator('..')).toHaveAttribute(
+          'href',
+          (await image.getAttribute('src'))!,
+        );
       }
       expect(
         await page

@@ -1,0 +1,285 @@
+---
+import { Image } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import Arrow from '../components/Arrow.astro';
+import portrait from '../assets/joe-ray-headshot.png';
+---
+
+<Layout
+  title="About us"
+  section="About us"
+  description="Meet Joe Ray, CEO & CTO of BEAN LABS. Experience across frontier AI labs, reinforcement learning, and real-world training environments."
+>
+  <section class="minimal-page about-page" aria-labelledby="about-title">
+    <header class="about-intro">
+      <h1 id="about-title">About us</h1>
+      <p>Frontier research experience. A focus on the real world.</p>
+    </header>
+
+    <article class="founder-profile" aria-labelledby="founder-name">
+      <div class="founder-portrait">
+        <Image
+          src={portrait}
+          alt="Joe Ray, CEO & CTO of BEAN LABS"
+          width={640}
+          height={800}
+          widths={[320, 480, 640, 960]}
+          sizes="(max-width: 760px) calc(100vw - 48px), 320px"
+          format="webp"
+          quality={90}
+          loading="eager"
+        />
+      </div>
+
+      <div class="founder-details">
+        <header class="founder-heading">
+          <h2 id="founder-name">Joe Ray</h2>
+          <p class="founder-role">CEO &amp; CTO</p>
+        </header>
+
+        <div class="founder-bio">
+          <p>
+            Joe leads company strategy and technical direction at BEAN LABS. He previously worked at
+            multiple frontier AI labs, contributing to large language model research, leading model
+            iterations, and running reinforcement learning at scale.
+          </p>
+          <p>
+            His work spans RL algorithms and environment engineering, including tool use,
+            human-in-the-loop learning, preference optimization, agentic search, and complex
+            instruction following. He brings experience translating research into measurable
+            improvements in deployed products.
+          </p>
+          <p>
+            Joe holds a B.S. in Mathematics (2018) and an M.S. in Computational Mathematics (2021),
+            both from Beihang University. He is the first inventor on five national invention
+            patents, and his research papers have received more than 1,500 citations.
+          </p>
+        </div>
+
+        <address class="founder-contact" aria-label="Personal contact details for Joe Ray">
+          <div>
+            <span class="contact-label">Personal email</span>
+            <a href="mailto:joe@kultalab.com">joe@kultalab.com</a>
+          </div>
+          <div>
+            <span class="contact-label">Phone</span>
+            <a href="tel:+8618910719857">+86 189 1071 9857</a>
+          </div>
+        </address>
+      </div>
+    </article>
+
+    <section class="company-contact" aria-labelledby="company-contact-title">
+      <header class="company-contact-intro">
+        <h2 id="company-contact-title">Get in touch</h2>
+        <p>BEAN LABS PTE. LTD.</p>
+      </header>
+      <address class="company-contact-details" aria-label="Contact BEAN LABS">
+        <div class="business-contact">
+          <span class="contact-label">Business enquiries</span>
+          <a class="business-email" href="mailto:contact@thebeanos.com">
+            <span>contact@thebeanos.com</span>
+            <Arrow diagonal />
+          </a>
+        </div>
+        <div class="company-address">
+          <span class="contact-label">Registered address</span>
+          <p>
+            60 Paya Lebar Road, #04-50
+            <br />
+            Paya Lebar Square
+            <br />
+            Singapore 409051
+          </p>
+        </div>
+      </address>
+    </section>
+  </section>
+</Layout>
+
+<style>
+  .about-intro > p {
+    max-width: 620px;
+    margin-top: 22px;
+    font-size: 20px;
+    line-height: 1.65;
+    text-wrap: pretty;
+  }
+
+  .founder-profile {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+    gap: clamp(36px, 5vw, 72px);
+    align-items: start;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1px solid var(--line);
+  }
+
+  .founder-portrait {
+    min-width: 0;
+  }
+
+  .founder-portrait img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    background: #e6e5e0;
+  }
+
+  .founder-contact {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 22px 32px;
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    font: 400 15px/1.6 var(--font);
+    overflow-wrap: anywhere;
+  }
+
+  .founder-contact a {
+    display: inline-block;
+    max-width: 100%;
+    padding-block: 3px;
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-color: var(--line);
+    transition: text-decoration-color 0.2s;
+  }
+
+  .founder-contact a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .contact-label {
+    display: block;
+    margin-bottom: 8px;
+    font: 400 11px/1.6 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .founder-heading h2 {
+    font: 400 46px/1.15 var(--display);
+    letter-spacing: -0.035em;
+  }
+
+  .founder-role {
+    margin-top: 12px;
+    font: 400 14px/1.5 var(--mono);
+    letter-spacing: 0.05em;
+  }
+
+  .founder-bio {
+    margin-top: 26px;
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .founder-bio p + p {
+    margin-top: 18px;
+  }
+
+  .company-contact {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+    gap: clamp(36px, 5vw, 72px);
+    margin-top: 72px;
+    padding-top: 36px;
+    border-top: 1px solid var(--line);
+  }
+
+  .company-contact-intro h2 {
+    font: 400 32px/1.25 var(--display);
+    letter-spacing: -0.02em;
+  }
+
+  .company-contact-intro p {
+    margin-top: 12px;
+    font: 400 11px/1.6 var(--mono);
+    letter-spacing: 0.04em;
+  }
+
+  .company-contact-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 28px 36px;
+    align-items: start;
+    min-width: 0;
+    font-style: normal;
+  }
+
+  .business-email {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+    padding-block: 2px;
+    font-size: 21px;
+    line-height: 1.5;
+    letter-spacing: -0.025em;
+  }
+
+  .business-email span {
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-underline-offset: 6px;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .business-email:hover span {
+    text-decoration-color: currentColor;
+  }
+
+  .business-email :global(.arrow) {
+    width: 15px;
+    height: 15px;
+  }
+
+  .business-email:hover :global(.arrow) {
+    transform: translate(2px, -2px);
+  }
+
+  .company-address p {
+    font: 400 14px/1.9 var(--font);
+  }
+
+  @media (max-width: 760px) {
+    .about-intro > p {
+      margin-top: 18px;
+      font-size: 18px;
+    }
+
+    .founder-profile {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+      margin-top: 32px;
+      padding-top: 28px;
+    }
+
+    .founder-portrait {
+      max-width: 400px;
+    }
+
+    .founder-heading h2 {
+      font-size: 38px;
+    }
+
+    .founder-bio {
+      margin-top: 22px;
+    }
+
+    .company-contact {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+      margin-top: 48px;
+      padding-top: 28px;
+    }
+
+    .company-contact-intro h2 {
+      font-size: 28px;
+    }
+  }
+</style>

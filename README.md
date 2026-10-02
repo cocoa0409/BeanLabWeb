@@ -8,9 +8,11 @@ Git 仓库：<https://github.com/cocoa0409/BeanLabWeb>，主分支为 `main`。
 
 ```sh
 npm ci
-npm run dev         # http://127.0.0.1:4321/
-npm run build       # 同步原始资料并生成 dist/
+npm run dev         # http://127.0.0.1:4321/，含本地 About us
+npm run build       # 生成用于部署的 dist/，不含 About us
 npm run preview     # 预览生产构建
+npm run build:local # 生成含 About us 的 dist-local/，仅用于本地预览
+npm run preview:local # 预览本地完整版本
 npm run check       # Astro / TypeScript
 npm run test:content # 文档导入格式检查
 npm run test:e2e    # 构建后运行浏览器测试（需安装 Google Chrome）
@@ -21,6 +23,7 @@ npm run test:e2e    # 构建后运行浏览器测试（需安装 Google Chrome�
 - `resource/blog/`、`resource/product/`：原始文档。构建时由 `scripts/import-resources.mjs` 导入；不要直接修改生成的 `src/content/`。产品导入会恢复导出文档中的标题、表格和代码块，并将样例文档的标题层级放在所属章节之下。文档引用的 `figs/` 图片会自动复制到公开资源目录，同时转换图片和原图链接。
 - `src/data/site.ts`：产品简介、作者、固定发布日期与岗位；列表按日期倒序。
 - `src/data/contact.json`：合作邮箱和招聘邮箱。
+- `src/pages-local/about.astro`：保存在本地和 Git 中的 About us 页面及 Joe Ray 的个人简介；职业照为 `src/assets/joe-ray-headshot.png`。`astro.config.mjs` 仅为本地开发或 `build:local` 注册此页面及导航入口，正式构建不生成页面或照片。生成说明保存在本地 `resource/pic/joe-ray-headshot.prompt.md`，不提交 Git。
 - `resource/brand/`：最终选定的银色主视觉原稿、B 图标和几何参数。
 - `public/brand/`、`public/artwork/`：正式使用的图标和压缩背景图。
 - `src/scripts/data-field.ts`、`brand-particles.ts`：持续背景动画和粒子聚散。
@@ -30,7 +33,7 @@ npm run test:e2e    # 构建后运行浏览器测试（需安装 Google Chrome�
 
 首页保持一屏。银色背景和粒子共享持久 Canvas，导航时只改变阅读蒙层。粒子基础色统一为 `#333333`，Canvas 与静态回退统一去色，米色蒙层独立保留。动画支持暂停、减少动态效果及 WebGL 不可用时的静态回退。
 
-设计候选、研究截图和旧素材已移至项目同级的 `beanlabs_website_archive/20260925-030855/`；不参与构建或发布。正式部署只上传 `dist/`，不上传源码、原始资料、依赖或测试产物。
+设计候选、研究截图和旧素材已移至项目同级的 `beanlabs_website_archive/20260925-030855/`；不参与构建或发布。原始个人照片及未选中的职业照候选保留在本地，不提交 Git。正式部署只上传 `npm run build` 生成的 `dist/`；`dist-local/`、源码、原始资料、依赖和测试产物均不上传服务器。
 
 ## 部署
 

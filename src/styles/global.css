@@ -161,7 +161,7 @@ h4[id] {
 .desktop-nav {
   display: flex;
   align-items: center;
-  gap: 42px;
+  gap: clamp(18px, 3vw, 42px);
 }
 .desktop-nav a {
   display: flex;
@@ -171,6 +171,7 @@ h4[id] {
   min-height: 44px;
   font: 400 20px/1.2 var(--display);
   color: var(--ink);
+  white-space: nowrap;
 }
 .desktop-nav a:hover,
 .desktop-nav a.active {
@@ -316,6 +317,8 @@ h4[id] {
     flex-direction: column;
     background: var(--paper);
     padding: 15px var(--gutter) 30px;
+    max-height: calc(100dvh - 80px);
+    overflow-y: auto;
     border-bottom: 1px solid var(--line);
     visibility: hidden;
     opacity: 0;
@@ -327,6 +330,7 @@ h4[id] {
   }
   .scrolled .mobile-nav {
     top: 72px;
+    max-height: calc(100dvh - 72px);
   }
   .mobile-nav > a {
     display: flex;

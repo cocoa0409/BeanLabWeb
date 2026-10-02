@@ -6,11 +6,13 @@
   "scripts": {
     "dev": "astro dev --host 127.0.0.1",
     "build": "node scripts/import-resources.mjs && astro build",
+    "build:local": "node scripts/import-resources.mjs && BEANLABS_LOCAL_ABOUT=1 astro build --outDir dist-local",
     "preview": "astro preview --host 127.0.0.1",
+    "preview:local": "astro preview --host 127.0.0.1 --outDir dist-local",
     "content:sync": "node scripts/import-resources.mjs",
     "check": "astro check",
     "test:content": "node --test scripts/product-markdown.test.mjs",
-    "test:e2e": "npm run test:content && npm run build && playwright test"
+    "test:e2e": "npm run test:content && npm run build:local && playwright test"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",

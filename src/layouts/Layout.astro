@@ -31,6 +31,7 @@ const nav = [
   { label: 'Home', href: '/' },
   { label: 'Blog', href: '/blog/' },
   { label: 'Product', href: '/product/' },
+  ...(import.meta.env.BEANLABS_LOCAL_ABOUT ? [{ label: 'About us', href: '/about/' }] : []),
   { label: 'Join us', href: '/joinus/' },
 ];
 ---
@@ -114,12 +115,22 @@ const nav = [
           display: none !important;
         }
         @media (max-width: 760px) {
+          .site-header {
+            height: auto;
+            min-height: 96px;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding-block: 12px 10px;
+          }
           .desktop-nav {
             display: flex !important;
-            gap: 12px;
+            flex-basis: 100%;
+            justify-content: space-between;
+            gap: 8px;
           }
           .desktop-nav a {
             font-size: 16px;
+            min-height: 28px;
           }
           .desktop-nav a.active:before {
             display: none;
