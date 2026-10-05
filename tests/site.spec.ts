@@ -518,7 +518,7 @@ test('Publication dates stay fixed, sort newest first, and match their detail pa
     expect(dates).toEqual([...dates].sort().reverse());
     for (const { href, date, label } of entries) {
       expect(date).toMatch(/^2026-\d{2}-\d{2}$/);
-      expect(date >= '2026-08-01' && date <= '2026-09-25').toBe(true);
+      expect(date >= '2026-06-03' && date <= '2026-09-25').toBe(true);
       expect(label).toBe(
         new Intl.DateTimeFormat('en-GB', {
           day: '2-digit',

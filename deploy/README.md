@@ -10,8 +10,8 @@
 - Nginx 配置：项目内 `nginx/default.conf`，对应本仓库的 [nginx.conf](nginx.conf)。
 - Docker 卷：`kultalabweb_static_data`，容器内挂载到 `/app/staticfiles`。
 - 网站目录：该卷内的 `beanlabs/releases/<release>/`；`beanlabs/current` 指向当前版本。
-- 当前版本：`20261002T043128Z`，生产站移除 About us 页面、导航入口及专用照片。页面源码和选定照片保留在本地与 Git，本地开发仍可访问；官网继续使用 `www.kultalab.com`。
-- 本次发布包、校验清单与切换前配置：`/root/backups/beanlabs/20261002T043128Z/`；上一版本 `releases/20260928T140910Z` 保留用于回滚。
+- 当前版本：`20261005T025928Z`，PRD-to-Repo 在产品列表和详情页的发布日期更新为 `2026-06-03`，列表按新日期排序；官网继续使用 `www.kultalab.com`。
+- 本次发布包、校验清单与切换前配置：`/root/backups/beanlabs/20261005T025928Z/`；上一版本 `releases/20261002T043128Z` 保留用于回滚。
 - 首次替换前的完整备份：`/root/backups/beanlabs/20260924T191458Z/`，包含旧项目、Nginx / Compose 配置、SQLite 一致性快照、静态和媒体文件、证书配置。
 
 新站仅发布 Astro 的 `dist/`，由 Nginx 直接提供静态文件。原 Django 容器、数据库和媒体卷保持原样，供旧站回滚使用。无需为新站运行 Node、Gunicorn 或新的容器。
@@ -46,11 +46,11 @@ mv -Tf "$base/current.next" "$base/current"
 
 ```sh
 base="$(docker volume inspect -f '{{.Mountpoint}}' kultalabweb_static_data)/beanlabs"
-ln -s releases/20260928T140910Z "$base/current.rollback"
+ln -s releases/20261002T043128Z "$base/current.rollback"
 mv -Tf "$base/current.rollback" "$base/current"
 ```
 
-无需重载 Nginx。上述上一版包含 About us，回滚会恢复该页面；若需继续保持下线，应使用当前源码重新正式构建并部署。当前版本的发布校验清单和来源文件校验清单保存在对应备份目录中。
+无需重载 Nginx。当前版本的发布校验清单和来源文件校验清单保存在对应备份目录中。
 
 ## 回滚到原 KultaLab 网站
 

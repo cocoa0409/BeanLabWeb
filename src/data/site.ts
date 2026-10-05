@@ -21,7 +21,7 @@ export const products = [
   {
     slug: 'prd-to-repo',
     name: 'PRD-to-Repo',
-    publishedDate: '2026-08-22',
+    publishedDate: '2026-06-03',
     description:
       'PRD-based software development tasks, evaluated through end-to-end functional testing.',
   },
