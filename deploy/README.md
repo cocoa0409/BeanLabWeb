@@ -1,24 +1,39 @@
 # 生产部署
 
-正式地址：<https://www.kultalab.com/>。`kultalab.com` 和 HTTP 访问统一跳转至该 HTTPS 域名。
+网站域名：`www.kultalab.com` / `kultalab.com`。**当前已下线（2026-10-05）**，HTTP / HTTPS 入口关闭请求，不返回网页、占位页或静态资源。
+
+下线配置为 [nginx.offline.conf](nginx.offline.conf)，仅保留 HTTP-01 证书验证路径。源码、静态版本和数据库均保留；下线前配置与验证记录位于 `/root/backups/beanlabs/20261005T152609Z-offline/`。
 
 ## 当前服务器
 
 - SSH：`ssh root@8.141.120.95`；密码仅在 SSH 提示中输入，不写入文件或命令。
-- 公网由现有 Docker 容器 `kultalabweb-nginx-1` 提供，监听 80 / 443。
+- 公网入口为现有 Docker 容器 `kultalabweb-nginx-1`，监听 80 / 443，当前加载下线配置。
 - Compose 项目：`/root/github/KultaLabWeb`。
-- Nginx 配置：项目内 `nginx/default.conf`，对应本仓库的 [nginx.conf](nginx.conf)。
+- Nginx 配置：项目内 `nginx/default.conf`，当前对应 [nginx.offline.conf](nginx.offline.conf)；[nginx.conf](nginx.conf) 保留作为上线配置。
 - Docker 卷：`kultalabweb_static_data`，容器内挂载到 `/app/staticfiles`。
 - 网站目录：该卷内的 `beanlabs/releases/<release>/`；`beanlabs/current` 指向当前版本。
-- 当前版本：`20261005T025928Z`，PRD-to-Repo 在产品列表和详情页的发布日期更新为 `2026-06-03`，列表按新日期排序；官网继续使用 `www.kultalab.com`。
+- 最后上线版本：`20261005T025928Z`，PRD-to-Repo 在产品列表和详情页的发布日期为 `2026-06-03`，列表按新日期排序。该版本保留在服务器上，当前不对外提供。
 - 本次发布包、校验清单与切换前配置：`/root/backups/beanlabs/20261005T025928Z/`；上一版本 `releases/20261002T043128Z` 保留用于回滚。
 - 首次替换前的完整备份：`/root/backups/beanlabs/20260924T191458Z/`，包含旧项目、Nginx / Compose 配置、SQLite 一致性快照、静态和媒体文件、证书配置。
 
-新站仅发布 Astro 的 `dist/`，由 Nginx 直接提供静态文件。原 Django 容器、数据库和媒体卷保持原样，供旧站回滚使用。无需为新站运行 Node、Gunicorn 或新的容器。
+上线时仅发布 Astro 的 `dist/`，由 Nginx 直接提供静态文件。原 Django 容器、数据库和媒体卷保持原样，供旧站回滚使用。无需为新站运行 Node、Gunicorn 或新的容器。
 
 HTTPS 使用 `/etc/letsencrypt/live/kultalab.com/` 下的现有证书。`certbot.timer` 自动续期，部署钩子 `20-kultalab-nginx` 负责测试并重载 Nginx。80 端口的 ACME 验证目录 `/var/www/letsencrypt` 必须继续保留。
 
-HTML 每次使用前重新验证；`/_astro/` 内容哈希资源缓存一年，其他图片、图标和字体缓存一小时。不存在的页面返回真正的 404。
+上线配置中，HTML 每次使用前重新验证；`/_astro/` 内容哈希资源缓存一年，其他图片、图标和字体缓存一小时。不存在的页面返回真正的 404。
+
+## 恢复公开访问
+
+需要重新上线时，在服务器恢复下线前的 Nginx 配置：
+
+```sh
+backup=/root/backups/beanlabs/20261005T152609Z-offline
+cat "$backup/nginx-before.conf" > /root/github/KultaLabWeb/nginx/default.conf
+docker exec kultalabweb-nginx-1 nginx -t
+docker exec kultalabweb-nginx-1 nginx -s reload
+```
+
+仅更新静态版本或切换 `current` 不会解除下线状态。
 
 ## 后续更新
 
